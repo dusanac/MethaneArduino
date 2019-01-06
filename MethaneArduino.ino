@@ -5,12 +5,11 @@
 
 
 /*
- * The circuit:
- * SD card attached to SPI bus as follows:
+ * SD card attached as follows:
  ** MOSI - pin 11
  ** MISO - pin 12
  ** CLK - pin 13
- ** CS - pin 4 (for MKRZero SD: SDCARD_SS_PIN)
+ ** CS - pin 4 
  * 
  */
 
@@ -21,9 +20,7 @@ int input = 0;
 int nocard = 0;
 
 void setup() {
-  // put your setup code here, to run once:
    Serial.begin(9600);
-
    Serial.print("Initializing SD card...");
 
   if (!SD.begin(4)) {
@@ -37,7 +34,7 @@ void setup() {
   }
   
   myFile = SD.open("sensor.txt", FILE_WRITE);
-  // Open the file for writing. 
+  // Open the file for writing! 
   if (myFile) {
     
     myFile.println("time,sensor");
@@ -53,7 +50,7 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  
   int analogSensor = analogRead(0);
 
   //Serial.print("Pin A0: ");
@@ -78,11 +75,11 @@ void loop() {
   //input = int(incomingByte);
   
   //Serial.println (incomingByte);
-  if (incomingByte == "113"){//"q for quite - exlit the file writing
+  if (incomingByte == "113"){//"type q for quit - exit/finish the writing to the file
     myFile.close();
     Serial.println("Writing compleated...");
   }
-  else if (incomingByte == "100"){// "d for delete
+  else if (incomingByte == "100"){// "type d for delete
     myFile.close();
     SD.remove("test.txt");
     SD.remove("sensor.txt");
